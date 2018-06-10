@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
  * */
 
 @Controller
-public class MainController {
+public class HomeController {
 
     @GetMapping(path = "/")
     @ResponseStatus(HttpStatus.OK)

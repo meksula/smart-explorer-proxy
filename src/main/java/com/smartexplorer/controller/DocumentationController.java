@@ -1,7 +1,10 @@
 package com.smartexplorer.controller;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseStatus;
 
 /**
  * @Author
@@ -12,4 +15,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 @RequestMapping(path = "/doc")
 public class DocumentationController {
+
+    @GetMapping
+    @ResponseStatus(HttpStatus.OK)
+    public String getDocumentation() {
+        return "main_doc";
+    }
+
 }

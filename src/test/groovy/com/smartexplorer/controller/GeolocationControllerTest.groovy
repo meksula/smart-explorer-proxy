@@ -1,13 +1,11 @@
 package com.smartexplorer.controller
 
 import com.fasterxml.jackson.databind.ObjectMapper
-import com.smartexplorer.controller.exception.CannotDefinePlace
+import com.smartexplorer.domain.core.CustomPreferences
 import com.smartexplorer.domain.core.PlaceFindCommandImpl
 import com.smartexplorer.domain.core.RequestObject
-import org.junit.runner.RunWith
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.http.MediaType
-import org.springframework.test.context.junit4.SpringRunner
 import org.springframework.test.web.servlet.MockMvc
 import org.springframework.web.util.NestedServletException
 import spock.lang.Shared
@@ -38,7 +36,8 @@ class GeolocationControllerTest extends Specification {
     def 'get nearest place to visit'() {
         setup:
         ObjectMapper objectMapper = new ObjectMapper()
-        String json = objectMapper.writeValueAsString(new RequestObject())
+        String json = objectMapper.writeValueAsString(
+                new RequestObject(435, 34.44444, 34.5555, new CustomPreferences()))
 
         when:
         mockMvc.perform(post("/api/v1/geolocation/nearest")

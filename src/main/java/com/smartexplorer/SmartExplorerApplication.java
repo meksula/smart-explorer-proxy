@@ -1,8 +1,10 @@
 package com.smartexplorer;
 
+import com.smartexplorer.configuration.security.OpenBeanConfig;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.security.oauth2.client.EnableOAuth2Sso;
+import org.springframework.context.annotation.Import;
 
 /**
  * @Author
@@ -11,6 +13,7 @@ import org.springframework.boot.autoconfigure.security.oauth2.client.EnableOAuth
  * */
 
 @EnableOAuth2Sso
+@Import(OpenBeanConfig.class)
 @SpringBootApplication
 public class SmartExplorerApplication {
 

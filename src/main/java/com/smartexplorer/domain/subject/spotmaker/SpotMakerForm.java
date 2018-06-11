@@ -1,4 +1,4 @@
-package com.smartexplorer.domain.subject;
+package com.smartexplorer.domain.subject.spotmaker;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;

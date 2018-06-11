@@ -1,4 +1,4 @@
-package com.smartexplorer.domain.subject;
+package com.smartexplorer.domain.subject.spotmaker;
 
 import org.springframework.security.core.Authentication;
 
@@ -8,6 +8,6 @@ import org.springframework.security.core.Authentication;
  * 10-06-2018
  * */
 
-public interface SpotMarkerCreator {
+public interface SpotMakerCreator {
     SpotMaker createSpotMaker(SpotMakerForm form, Authentication authentication);
 }

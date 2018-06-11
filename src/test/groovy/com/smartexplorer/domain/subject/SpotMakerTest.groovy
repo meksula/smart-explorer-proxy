@@ -1,6 +1,7 @@
 package com.smartexplorer.domain.subject
 
 import com.fasterxml.jackson.databind.ObjectMapper
+import com.smartexplorer.domain.subject.spotmaker.SpotMaker
 import spock.lang.Specification
 
 /**
@@ -35,7 +36,30 @@ class SpotMakerTest extends Specification {
         def json = new ObjectMapper().writeValueAsString(spotMaker)
 
         then:
-        json.equals("{\"spotMakerId\":\"dg454ec63f22\",\"confirmed\":false,\"principalNumber\":\"9928494849848\",\"username\":\"Clerifly\",\"password\":\"445rfcgv\",\"name\":\"Cler\",\"surname\":\"Abrevee\",\"email\":\"cl.abrevee@gmail.com\",\"age\":34}")
+        json == "{\"spotMakerId\":\"dg454ec63f22\",\"confirmed\":false,\"principalNumber\":\"9928494849848\",\"username\":\"Clerifly\",\"password\":\"445rfcgv\",\"name\":\"Cler\",\"surname\":\"Abrevee\",\"email\":\"cl.abrevee@gmail.com\",\"age\":34}"
+    }
+
+    def 'spotmaker builder pattern test'() {
+        setup:
+        def spotMaker = new SpotMaker.SpotMakerBuilder()
+                .spotMakerId()
+                .principalNumber(principalNumber)
+                .username(username)
+                .password(password)
+                .name(name)
+                .surname(surname)
+                .email(email)
+                .age(age)
+                .build()
+
+        expect:
+        this.principalNumber == spotMaker.getPrincipalNumber()
+        this.username == spotMaker.getUsername()
+        this.password == spotMaker.getPassword()
+        this.name == spotMaker.getName()
+        this.surname == spotMaker.getSurname()
+        this.email == spotMaker.getEmail()
+        this.age == spotMaker.getAge()
     }
 
 }

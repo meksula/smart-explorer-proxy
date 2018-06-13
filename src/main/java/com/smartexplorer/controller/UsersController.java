@@ -15,7 +15,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.Collection;
 
 /**
  * @Author
@@ -24,10 +29,11 @@ import org.springframework.web.bind.annotation.*;
  * */
 
 @RestController
-@RequestMapping("/api/v1/user/")
+@RequestMapping("/api/v1/user")
 public class UsersController {
     private SpotMakerCreator spotMakerCreator;
     private RegistrationConfirmation registrationConfirmation;
+    private Authentication authentication;
 
     @Autowired
     public void setSpotMakerCreator(SpotMakerCreator spotMakerCreator) {
@@ -39,16 +45,18 @@ public class UsersController {
         this.registrationConfirmation = registrationConfirmation;
     }
 
-    @PutMapping(path = "/spotmaker")
+    @PostMapping("/spotmaker")
     @ResponseStatus(HttpStatus.CREATED)
-    public SpotMaker createSpotMaker(@RequestBody SpotMakerForm form, Authentication authentication) {
+    public SpotMaker createSpotMaker(@RequestBody SpotMakerForm form) {
+        authentication = SecurityContextHolder.getContext().getAuthentication();
         return spotMakerCreator.createSpotMaker(form, authentication);
     }
 
     @GetMapping("/confirmation/{verificationCode}")
     @ResponseStatus(HttpStatus.OK)
-    public SpotMaker confirmSpotMaker(Authentication authentication,
-                                      @PathVariable("verificationCode") String verificationCode) {
+    public SpotMaker confirmSpotMaker(@PathVariable("verificationCode") String verificationCode) {
+        authentication = SecurityContextHolder.getContext().getAuthentication();
+
         Confirmation confirmation = new Confirmation(authentication.getPrincipal().toString(), verificationCode);
 
         return registrationConfirmation.confirmAndEnable(confirmation)

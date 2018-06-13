@@ -12,7 +12,7 @@ import org.springframework.context.annotation.Import;
  * 07-06-2018
  * */
 
-@EnableOAuth2Sso
+//@EnableOAuth2Sso
 @Import(OpenBeanConfig.class)
 @SpringBootApplication
 public class SmartExplorerApplication {
@@ -20,4 +20,5 @@ public class SmartExplorerApplication {
     public static void main(String[] args) {
         SpringApplication.run(SmartExplorerApplication.class, args);
     }
+
 }

@@ -17,7 +17,7 @@ public class SpotResponse {
     private String description;
     private String integratedAddress;
     private double ratesAvg;
-    private List<String> recentOpinions;
+    private List<Opinion> recentOpinions;
     private String pictureUri;
     private double longitude;
     private double latitude;
@@ -41,7 +41,7 @@ public class SpotResponse {
         private String integratedAddress;
         private double ratesAvg;
         private String pictureUri;
-        private List<String> recentOpinions;
+        private List<Opinion> recentOpinions;
         private double longitude;
         private double latitude;
 
@@ -75,7 +75,7 @@ public class SpotResponse {
             return this;
         }
 
-        public SpotResponseBuilder recentOpinions(List<String> recentOpinions) {
+        public SpotResponseBuilder recentOpinions(List<Opinion> recentOpinions) {
             this.recentOpinions = recentOpinions;
             return this;
         }

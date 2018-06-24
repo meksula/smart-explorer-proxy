@@ -55,9 +55,9 @@ public class LocationController {
                 .orElseThrow(() -> new CannotFindAnySpot("Cannot find any spot"));
     }
 
-    @PostMapping("/{spotId}")
+    @GetMapping("/{spotId}")
     @ResponseStatus(HttpStatus.OK)
-    public List<SpotResponse> spotById(@PathVariable("spotId") String spotId) {
+    public SpotResponse spotById(@PathVariable("spotId") String spotId) {
         return searchRequestCommand.findById(spotId)
                 .orElseThrow(() -> new CannotFindAnySpot("Cannot find any spot with this id: " + spotId));
     }
@@ -69,7 +69,7 @@ public class LocationController {
                 .orElseThrow(() -> new CannotFindAnySpot("Cannot visit this place! : " + visit.getSpotId()));
     }
 
-    @PostMapping("/visit/history/{explorerId}")
+    @GetMapping("/visit/history/{explorerId}")
     @ResponseStatus(HttpStatus.OK)
     public List<Visit> visitHistory(@PathVariable("explorerId") String explorerId) {
         return searchRequestCommand.visitHistory(explorerId)

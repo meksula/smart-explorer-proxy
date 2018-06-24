@@ -22,10 +22,10 @@ public interface SearchRequestCommand {
 
     Optional<List<SpotResponse>> findTop(int amount);
 
-    Optional<List<SpotResponse>> findById(String spotId);
+    Optional<SpotResponse> findById(String spotId);
 
     Optional<SpotResponse> visit(Visit visit);
 
-    Optional<List<Visit>> visitHistory(String explorerId);
+    Optional<List> visitHistory(String explorerId);
 
 }

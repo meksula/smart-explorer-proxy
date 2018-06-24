@@ -22,4 +22,6 @@ public interface OpinionsRequestCommand {
 
     Optional<List<Opinion>> getExplorersOpinion(String explorerId);
 
+    double getAvgRate(String spotId);
+
 }

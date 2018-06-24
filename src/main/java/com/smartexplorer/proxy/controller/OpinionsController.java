@@ -25,14 +25,14 @@ public class OpinionsController {
         this.opinionsRequestCommand = opinionsRequestCommand;
     }
 
-    @PostMapping("/add")
+    @PostMapping
     @ResponseStatus(HttpStatus.OK)
     public Opinion addOpinion(@RequestBody Opinion opinion) {
         return opinionsRequestCommand.addOpinion(opinion)
                 .orElseThrow(() -> new OpinionException("Cannot add opinion to spot with id: " + opinion.getSpotId()));
     }
 
-    @PostMapping("/latest/{spotId}/{amount}")
+    @GetMapping("/latest/{spotId}/{amount}")
     @ResponseStatus(HttpStatus.OK)
     public List<Opinion> getLatest(@PathVariable("spotId") String spotId,
                                    @PathVariable("amount") int amount) {
@@ -40,7 +40,7 @@ public class OpinionsController {
                 .orElseThrow(() -> new OpinionException("Cannot find latest opinions."));
     }
 
-    @PostMapping("/best/{spotId}/{amount}")
+    @GetMapping("/best/{spotId}/{amount}")
     @ResponseStatus(HttpStatus.OK)
     public List<Opinion> getBestOpinions(@PathVariable("spotId") String spotId,
                                          @PathVariable("amount") int amount) {
@@ -48,7 +48,7 @@ public class OpinionsController {
                 .orElseThrow(() -> new OpinionException("Cannot find best opinions."));
     }
 
-    @PostMapping("/worst/{spotId}/{amount}")
+    @GetMapping("/worst/{spotId}/{amount}")
     @ResponseStatus(HttpStatus.OK)
     public List<Opinion> getWorstOpinions(@PathVariable("spotId") String spotId,
                                           @PathVariable("amount") int amount) {
@@ -56,7 +56,7 @@ public class OpinionsController {
                 .orElseThrow(() -> new OpinionException("Cannot find worst opinions."));
     }
 
-    @PostMapping("/{explorerId}")
+    @GetMapping("/{explorerId}")
     @ResponseStatus(HttpStatus.OK)
     public List<Opinion> getExplorerOpinions(@PathVariable("explorerId") String explorerId) {
         return opinionsRequestCommand.getExplorersOpinion(explorerId)

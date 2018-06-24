@@ -3,16 +3,15 @@ package com.smartexplorer.proxy.domain.exchange;
 import com.google.maps.model.LatLng;
 import com.smartexplorer.proxy.domain.subject.SpotResponse;
 import com.smartexplorer.proxy.domain.subject.Visit;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
-import org.springframework.http.client.support.BasicAuthorizationInterceptor;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 
 /**
  * @Author
@@ -22,62 +21,100 @@ import java.util.Optional;
 
 @Service
 public class SearchRequestCommandImpl implements SearchRequestCommand {
+    private SpotResponseCreator spotResponseCreator;
+    private RestTemplate restTemplate;
+
+    @Qualifier("restConfigured")
+    @Autowired
+    public void setRestTemplate(RestTemplate restTemplate) {
+        this.restTemplate = restTemplate;
+    }
+
+    @Autowired
+    public void setSpotResponseCreator(SpotResponseCreator spotResponseCreator) {
+        this.spotResponseCreator = spotResponseCreator;
+    }
 
     @Override
     public Optional<SpotResponse> findNearest(LatLng latLng) {
-        RestTemplate restTemplate = new RestTemplate();
-        restTemplate.getInterceptors().add(new BasicAuthorizationInterceptor("PROXY_CLIENT_3d2dc3df22", "PROXY_CLIENT_3d2dc3df22"));
-
         HttpEntity<LatLng> request = new HttpEntity<>(latLng);
 
         ResponseEntity<Map> response = restTemplate.exchange("http://localhost:8090/api/v1/spot/exploration/nearest",
                 HttpMethod.POST, request, Map.class);
 
-        Map map = response.getBody();
-
-        SpotResponse spotResponse = new SpotResponse.SpotResponseBuilder()
-                .spotId((String) map.get("id"))
-                .name((String) map.get("name"))
-                .description((String) map.get("description"))
-                .integratedAddress(map.get("city") + ", ul. " + map.get("street") + " " + map.get("buildingNumber"))
-                .ratesAvg(5) //TODO
-                .recentOpinions(null) //TODO
-                .pictureUri("http://localhost:8090//api/v1/spot/" + map.get("id"))
-                .longitude((Double) map.get("longitude"))
-                .latitude((Double) map.get("latitude"))
-                .build();
-
-
-        return Optional.ofNullable(spotResponse);
+        return Optional.of(spotResponseCreator.createSpotResponse(response.getBody()));
     }
 
     @Override
     public Optional<List<SpotResponse>> findInCity(LatLng latLng) {
-        return Optional.empty();
+        HttpEntity<LatLng> request = new HttpEntity<>(latLng);
+
+        ResponseEntity<List> response = restTemplate.exchange("http://localhost:8090/api/v1/spot/exploration/city",
+                HttpMethod.POST, request, List.class);
+
+        List<SpotResponse> spotResponseList = new ArrayList<>();
+
+        for (Object object : response.getBody()) {
+            spotResponseList.add(spotResponseCreator.createSpotResponse((Map) object));
+        }
+
+        return Optional.of(spotResponseList);
     }
 
     @Override
     public Optional<List<SpotResponse>> findInDistrict(LatLng latLng) {
-        return Optional.empty();
+        HttpEntity<LatLng> request = new HttpEntity<>(latLng);
+
+        ResponseEntity<List> response = restTemplate.exchange("http://localhost:8090/api/v1/spot/exploration/district",
+                HttpMethod.POST, request, List.class);
+
+        List<SpotResponse> spotResponseList = new ArrayList<>();
+
+        for (Object object : response.getBody()) {
+            spotResponseList.add(spotResponseCreator.createSpotResponse((Map) object));
+        }
+
+        return Optional.of(spotResponseList);
     }
 
     @Override
     public Optional<List<SpotResponse>> findTop(int amount) {
-        return Optional.empty();
+        ResponseEntity<List> response =
+                restTemplate.getForEntity("http://localhost:8090/api/v1/spot/exploration/top/" + amount, List.class);
+
+        List<SpotResponse> spotResponseList = new ArrayList<>();
+
+        for (Object object : response.getBody()) {
+            spotResponseList.add(spotResponseCreator.createSpotResponse((Map) object));
+        }
+
+        return Optional.of(spotResponseList);
     }
 
     @Override
-    public Optional<List<SpotResponse>> findById(String spotId) {
-        return Optional.empty();
+    public Optional<SpotResponse> findById(String spotId) {
+        ResponseEntity<Map> response =
+                restTemplate.getForEntity("http://localhost:8090/api/v1/spot/exploration/" + spotId, Map.class);
+
+        return Optional.of(spotResponseCreator.createSpotResponse(response.getBody()));
     }
 
     @Override
     public Optional<SpotResponse> visit(Visit visit) {
-        return Optional.empty();
+        HttpEntity<Visit> request = new HttpEntity<>(visit);
+
+        ResponseEntity<Map> response = restTemplate.exchange("http://localhost:8090/api/v1/spot/exploration",
+                HttpMethod.POST, request, Map.class);
+
+        return Optional.of(spotResponseCreator.createSpotResponse(response.getBody()));
     }
 
     @Override
-    public Optional<List<Visit>> visitHistory(String explorerId) {
-        return Optional.empty();
+    public Optional<List> visitHistory(String explorerId) {
+        ResponseEntity<List> response =
+                restTemplate.getForEntity("http://localhost:8090/api/v1/spot/exploration/history/" + explorerId, List.class);
+
+        return Optional.of(response.getBody());
     }
+
 }

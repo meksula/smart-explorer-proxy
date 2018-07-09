@@ -5,10 +5,9 @@ import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import java.util.List;
 
 /**
- * @Author
- * Karol Meksuła
+ * @Author Karol Meksuła
  * 17-06-2018
- * */
+ */
 
 @JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.ANY)
 public class SpotResponse {

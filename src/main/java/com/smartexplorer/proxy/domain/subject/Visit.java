@@ -4,10 +4,9 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 
 /**
- * @Author
- * Karol Meksuła
+ * @Author Karol Meksuła
  * 18-06-2018
- * */
+ */
 
 @Getter
 public class Visit {

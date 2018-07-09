@@ -13,10 +13,9 @@ import org.springframework.web.client.RestTemplate;
 import java.util.*;
 
 /**
- * @Author
- * Karol Meksuła
+ * @Author Karol Meksuła
  * 23-06-2018
- * */
+ */
 
 @Service
 public class OpinionsRequestCommandImpl implements OpinionsRequestCommand {
@@ -103,7 +102,7 @@ public class OpinionsRequestCommandImpl implements OpinionsRequestCommand {
     @Override
     public double getAvgRate(String spotId) {
         return restTemplate
-                .getForEntity("http://localhost:8090/api/v1/spot/exploration/"+ spotId +"/rate", Double.class)
+                .getForEntity("http://localhost:8090/api/v1/spot/exploration/" + spotId + "/rate", Double.class)
                 .getBody();
     }
 

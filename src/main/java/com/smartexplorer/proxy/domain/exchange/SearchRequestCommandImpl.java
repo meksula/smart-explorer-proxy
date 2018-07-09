@@ -14,10 +14,9 @@ import org.springframework.web.client.RestTemplate;
 import java.util.*;
 
 /**
- * @Author
- * Karol Meksuła
+ * @Author Karol Meksuła
  * 17-06-2018
- * */
+ */
 
 @Service
 public class SearchRequestCommandImpl implements SearchRequestCommand {

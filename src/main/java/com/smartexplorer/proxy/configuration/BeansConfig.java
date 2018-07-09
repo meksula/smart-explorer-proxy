@@ -7,10 +7,9 @@ import org.springframework.http.client.support.BasicAuthorizationInterceptor;
 import org.springframework.web.client.RestTemplate;
 
 /**
- * @Author
- * Karol Meksuła
+ * @Author Karol Meksuła
  * 24-06-2018
- * */
+ */
 
 @Configuration
 public class BeansConfig {

@@ -8,10 +8,9 @@ import java.util.List;
 import java.util.Optional;
 
 /**
- * @Author
- * Karol Meksuła
+ * @Author Karol Meksuła
  * 17-06-2018
- * */
+ */
 
 public interface SearchRequestCommand {
     Optional<SpotResponse> findNearest(LatLng latLng);

@@ -6,10 +6,9 @@ import java.util.List;
 import java.util.Optional;
 
 /**
- * @Author
- * Karol Meksuła
+ * @Author Karol Meksuła
  * 23-06-2018
- * */
+ */
 
 public interface OpinionsRequestCommand {
     Optional<Opinion> addOpinion(Opinion opinion);

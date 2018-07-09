@@ -4,10 +4,9 @@ import lombok.Getter;
 import lombok.Setter;
 
 /**
- * @Author
- * Karol Meksuła
+ * @Author Karol Meksuła
  * 24-06-2018
- * */
+ */
 
 @Getter
 @Setter

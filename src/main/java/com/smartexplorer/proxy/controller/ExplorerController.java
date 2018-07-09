@@ -9,10 +9,9 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 
 /**
- * @Author
- * Karol Meksuła
+ * @Author Karol Meksuła
  * 24-06-2018
- * */
+ */
 
 @RestController
 @RequestMapping("/explorer")

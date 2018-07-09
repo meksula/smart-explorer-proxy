@@ -10,10 +10,9 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 /**
- * @Author
- * Karol Meksuła
+ * @Author Karol Meksuła
  * 23-06-2018
- * */
+ */
 
 @RestController
 @RequestMapping("/opinions")

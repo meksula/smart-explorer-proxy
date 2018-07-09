@@ -6,10 +6,9 @@ import org.springframework.stereotype.Service;
 import java.util.Map;
 
 /**
- * @Author
- * Karol Meksuła
+ * @Author Karol Meksuła
  * 24-06-2018
- * */
+ */
 
 @Service
 public class OpinionCreatorImpl implements OpinionCreator {

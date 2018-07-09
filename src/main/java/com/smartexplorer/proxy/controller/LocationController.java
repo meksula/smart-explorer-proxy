@@ -15,7 +15,7 @@ import java.util.List;
  * @Author
  * Karol Meksuła
  * 17-06-2018
- * */
+ */
 
 @RestController
 @RequestMapping

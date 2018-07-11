@@ -11,4 +11,6 @@ import java.util.Map;
 
 public interface SpotResponseCreator {
     SpotResponse createSpotResponse(Map responseValues);
+
+    SpotResponse createDetailedSpotResponse(Map responseValues);
 }

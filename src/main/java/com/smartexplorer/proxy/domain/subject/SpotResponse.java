@@ -1,6 +1,7 @@
 package com.smartexplorer.proxy.domain.subject;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
+import lombok.Getter;
 
 import java.util.List;
 
@@ -9,6 +10,7 @@ import java.util.List;
  * 17-06-2018
  */
 
+@Getter
 @JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.ANY)
 public class SpotResponse {
     private String spotId;
@@ -20,6 +22,8 @@ public class SpotResponse {
     private String pictureUri;
     private double longitude;
     private double latitude;
+    private boolean isOpenNow;
+    private SpotInformation spotInformation;
 
     public SpotResponse(final SpotResponseBuilder spotResponseBuilder) {
         this.spotId = spotResponseBuilder.spotId;
@@ -31,6 +35,16 @@ public class SpotResponse {
         this.recentOpinions = spotResponseBuilder.recentOpinions;
         this.longitude = spotResponseBuilder.longitude;
         this.latitude = spotResponseBuilder.latitude;
+        this.isOpenNow = spotResponseBuilder.isOpenNow;
+        this.spotInformation = spotResponseBuilder.spotInformation;
+    }
+
+    public void setOpenNow(boolean openNow) {
+        isOpenNow = openNow;
+    }
+
+    public void setSpotInformation(SpotInformation spotInformation) {
+        this.spotInformation = spotInformation;
     }
 
     public static class SpotResponseBuilder {
@@ -43,6 +57,8 @@ public class SpotResponse {
         private List<Opinion> recentOpinions;
         private double longitude;
         private double latitude;
+        private boolean isOpenNow;
+        private SpotInformation spotInformation;
 
         public SpotResponseBuilder spotId(String spotId) {
             this.spotId = spotId;
@@ -86,6 +102,16 @@ public class SpotResponse {
 
         public SpotResponseBuilder latitude(double latitude) {
             this.latitude = latitude;
+            return this;
+        }
+
+        public SpotResponseBuilder isOpenNow(boolean isOpenNow) {
+            this.isOpenNow = isOpenNow;
+            return this;
+        }
+
+        public SpotResponseBuilder spotInformation(SpotInformation spotInformation) {
+            this.spotInformation = spotInformation;
             return this;
         }
 

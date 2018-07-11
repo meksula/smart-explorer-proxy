@@ -5,6 +5,7 @@ import com.smartexplorer.proxy.domain.subject.SpotResponse;
 import com.smartexplorer.proxy.domain.subject.Visit;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
@@ -34,21 +35,24 @@ public class SearchRequestCommandImpl implements SearchRequestCommand {
         this.spotResponseCreator = spotResponseCreator;
     }
 
+    @Value("${hostname}")
+    private String hostname;
+
     @Override
     public Optional<SpotResponse> findNearest(LatLng latLng) {
         HttpEntity<LatLng> request = new HttpEntity<>(latLng);
 
-        ResponseEntity<Map> response = restTemplate.exchange("http://localhost:8090/api/v1/spot/exploration/nearest",
+        ResponseEntity<Map> response = restTemplate.exchange(hostname + "/api/v1/spot/exploration/nearest",
                 HttpMethod.POST, request, Map.class);
 
-        return Optional.of(spotResponseCreator.createSpotResponse(response.getBody()));
+        return Optional.of(spotResponseCreator.createDetailedSpotResponse(response.getBody()));
     }
 
     @Override
     public Optional<List<SpotResponse>> findInCity(LatLng latLng) {
         HttpEntity<LatLng> request = new HttpEntity<>(latLng);
 
-        ResponseEntity<List> response = restTemplate.exchange("http://localhost:8090/api/v1/spot/exploration/city",
+        ResponseEntity<List> response = restTemplate.exchange(hostname + "/api/v1/spot/exploration/city",
                 HttpMethod.POST, request, List.class);
 
         List<SpotResponse> spotResponseList = new ArrayList<>();
@@ -64,7 +68,7 @@ public class SearchRequestCommandImpl implements SearchRequestCommand {
     public Optional<List<SpotResponse>> findInDistrict(LatLng latLng) {
         HttpEntity<LatLng> request = new HttpEntity<>(latLng);
 
-        ResponseEntity<List> response = restTemplate.exchange("http://localhost:8090/api/v1/spot/exploration/district",
+        ResponseEntity<List> response = restTemplate.exchange(hostname + "/api/v1/spot/exploration/district",
                 HttpMethod.POST, request, List.class);
 
         List<SpotResponse> spotResponseList = new ArrayList<>();
@@ -79,7 +83,7 @@ public class SearchRequestCommandImpl implements SearchRequestCommand {
     @Override
     public Optional<List<SpotResponse>> findTop(int amount) {
         ResponseEntity<List> response =
-                restTemplate.getForEntity("http://localhost:8090/api/v1/spot/exploration/top/" + amount, List.class);
+                restTemplate.getForEntity(hostname + "/api/v1/spot/exploration/top/" + amount, List.class);
 
         List<SpotResponse> spotResponseList = new ArrayList<>();
 
@@ -93,7 +97,7 @@ public class SearchRequestCommandImpl implements SearchRequestCommand {
     @Override
     public Optional<SpotResponse> findById(String spotId) {
         ResponseEntity<Map> response =
-                restTemplate.getForEntity("http://localhost:8090/api/v1/spot/exploration/" + spotId, Map.class);
+                restTemplate.getForEntity(hostname + "/api/v1/spot/exploration/" + spotId, Map.class);
 
         return Optional.of(spotResponseCreator.createSpotResponse(response.getBody()));
     }
@@ -102,7 +106,7 @@ public class SearchRequestCommandImpl implements SearchRequestCommand {
     public Optional<SpotResponse> visit(Visit visit) {
         HttpEntity<Visit> request = new HttpEntity<>(visit);
 
-        ResponseEntity<Map> response = restTemplate.exchange("http://localhost:8090/api/v1/spot/exploration",
+        ResponseEntity<Map> response = restTemplate.exchange(hostname + "/api/v1/spot/exploration",
                 HttpMethod.POST, request, Map.class);
 
         return Optional.of(spotResponseCreator.createSpotResponse(response.getBody()));
@@ -111,7 +115,7 @@ public class SearchRequestCommandImpl implements SearchRequestCommand {
     @Override
     public Optional<List> visitHistory(String explorerId) {
         ResponseEntity<List> response =
-                restTemplate.getForEntity("http://localhost:8090/api/v1/spot/exploration/history/" + explorerId, List.class);
+                restTemplate.getForEntity(hostname + "/api/v1/spot/exploration/history/" + explorerId, List.class);
 
         return Optional.of(response.getBody());
     }

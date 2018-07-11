@@ -2,6 +2,7 @@ package com.smartexplorer.proxy.controller;
 
 import com.smartexplorer.proxy.domain.subject.Explorer;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
@@ -23,13 +24,16 @@ public class ExplorerController {
         this.restTemplate = restTemplate;
     }
 
+    @Value("${hostname}")
+    private String hostname;
+
     @PostMapping
     @ResponseStatus(HttpStatus.OK)
     public Explorer postExplorer(@RequestBody Explorer explorer) {
         //explorer.setExplorerId(auth.getName());
         HttpEntity<Explorer> entity = new HttpEntity<>(explorer);
 
-        return restTemplate.exchange("http://localhost:8090/api/v1/explorer/personalization",
+        return restTemplate.exchange(hostname + "/api/v1/explorer/personalization",
                 HttpMethod.POST, entity, Explorer.class).getBody();
     }
 
